@@ -1,0 +1,23 @@
+{
+  "transport": "streamable-http",
+  "url": "http://localhost:8085/mcp",
+  "provider": "OpenWeather",
+  "tools": [
+    "get_current_weather",
+    "get_forecast",
+    "health_check"
+  ],
+  "get_current_weather": {
+    "args": {
+      "city": "Brisbane,AU"
+    },
+    "result": "Current Weather for Brisbane, AU:\nSource: OpenWeather Current Weather API\n\nTemperature: 20.67°C\nFeels like: 20.67°C\nCondition: light rain\nHumidity: 72%\nWind: 19.12 km/h, 143°\nPressure: 1023 hPa\nUV Index: unavailable in this API\nVisibility: 10.0 km\nLast updated (data calculation, local time): 2026-10-14T18:40:47+10:00\n"
+  },
+  "get_forecast": {
+    "args": {
+      "city": "Tokyo,JP",
+      "days": 3
+    },
+    "result": "Weather Forecast for Tokyo, JP:\n---\nOpenWeather location label: Marunouchi\n---\nSource: OpenWeather 5-day / 3-hour forecast. First day may be partial.\n---\nHigh/low are extrema of available 3-hour temperatures; rain chance is the maximum interval probability.\n---\n2026-10-14 (local date; 2 forecast intervals):\nHigh (interval maximum): 23.55°C\nLow (interval minimum): 22.69°C\nCondition: light rain, scattered clouds\nChance of Rain (maximum 3-hour probability): 25%\nMax Wind: 22.72 km/h\nUV Index: unavailable in this API\n---\n2026-10-15 (local date; 8 forecast intervals):\nHigh (interval maximum): 21.36°C\nLow (interval minimum): 16.8°C\nCondition: light rain, overcast clouds, broken clouds, few clouds, scattered clouds\nChance of Rain (maximum 3-hour probability): 25%\nMax Wind: 16.7 km/h\nUV Index: unavailable in this API\n---\n2026-10-16 (local date; 8 forecast intervals):\nHigh (interval maximum): 24.18°C\nLow (interval minimum): 17.34°C\nCondition: overcast clouds\nChance of Rain (maximum 3-hour probability): 0%\nMax Wind: 9.68 km/h\nUV Index: unavailable in this API"
+  }
+}

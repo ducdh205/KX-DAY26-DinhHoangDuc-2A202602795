@@ -1,0 +1,13 @@
+{
+  "image": "sha256:9b10d3675964d52ba133dce45a363ace0337bccc895725e89f041cf7b012fce8",
+  "source": "weather.py with optional OpenWeather adapter",
+  "tools": [
+    "get_current_weather",
+    "get_forecast",
+    "health_check"
+  ],
+  "initialize": "PASS",
+  "health_check": "PASS",
+  "cloud_run_deployed": false,
+  "container_has_credentials": false
+}

@@ -1,0 +1,111 @@
+## Latest page snapshot
+uid=12_0 RootWebArea "Agent Development Kit Dev UI" url="http://localhost:8000/dev-ui/?app=weather_agent&userId=user&session=e1c645d0-47d1-4bb6-ba69-62a8acef410f"
+  uid=12_1 button "Toggle side panel"
+  uid=12_2 image "ADK Logo" url="http://localhost:8000/dev-ui/assets/ADK-512-color.svg"
+  uid=12_3 StaticText "Agent Development Kit"
+  uid=12_4 StaticText " 2.3.0"
+  uid=12_5 button "weather_agent" description="Select an app"
+  uid=12_6 button
+  uid=12_7 button disableable disabled
+  uid=12_8 button "What's the weather in Brisbane, Australia? Use ..." description="Select a session"
+  uid=13_0 button "New Session" description="Create a new Session"
+  uid=12_9 button description="Switch to Light Mode"
+  uid=12_10 button "User menu" description="User" expandable haspopup="menu"
+  uid=12_11 tab "Info" selectable selected
+  uid=12_12 tab "State" selectable
+  uid=12_13 tab "Artifacts" selectable
+  uid=12_14 tab "Evals" selectable
+  uid=14_0 status atomic live="polite" relevant="additions text"
+    uid=14_1 StaticText "Event 3 of 4"
+  uid=14_2 button "Previous Event"
+  uid=14_3 button "Next Event"
+  uid=14_4 button description="Remove selection"
+  uid=14_5 button description="Info"
+  uid=14_6 button description="Graph"
+  uid=14_7 button description="Request"
+  uid=14_8 button description="Response"
+  uid=14_9 button description="Usage Metadata"
+  uid=14_10 button description="State Changes"
+  uid=14_11 button description="Raw JSON"
+  uid=14_12 StaticText "Invocation:"
+  uid=14_13 button "#1 (What's the weather in Brisbane, Australia? Use ...)" expandable haspopup="menu"
+  uid=14_14 button description="Full Screen"
+  uid=15_0 StaticText "✦"
+  uid=15_1 StaticText " weather_agent"
+  uid=15_2 graphics-symbol "Not run in this invocation"
+  uid=15_3 StaticText "🔧"
+  uid=15_4 StaticText " McpToolset"
+  uid=15_5 group "weather_agent->McpToolset"
+  uid=12_16 radio "Events" checked
+  uid=12_17 radio "Traces"
+  uid=12_18 button "Filter" description="Add a filter" expandable haspopup="menu"
+  uid=12_19 button description="Retrieve latest session and show"
+  uid=12_20 button "More options" expandable haspopup="menu"
+  uid=14_21 StaticText "#1"
+  uid=14_22 StaticText "What's the weather in Brisbane, Australia? Use the weather tool. Give a compact answer with temperature, feels like, humidity, wind, pressure, UV availability, source and last updated time."
+  uid=14_23 StaticText "#2"
+  uid=14_24 button "get_current_weather("Brisbane")"
+  uid=14_25 StaticText "#3"
+  uid=14_26 button "get_current_weather" focusable focused
+  uid=15_6 button expandable haspopup="menu"
+  uid=14_27 StaticText "#4"
+  uid=14_28 StaticText "Current weather in Brisbane, AU: Temp: 20.67°C, Feels like: 20.67°C, Humidity: 72%, Wind: 19.12 km/h, Pressure: 1023 hPa, UV Index: unavailable. Source: OpenWeather Current Weather API, Last updated: 2026-10-14T18:43:29+10:00."
+  uid=12_21 button description="Actions" expandable haspopup="menu"
+  uid=12_22 textbox "Type a message..." multiline
+  uid=12_23 button
+  uid=14_29 button description="Send message"
+  uid=12_25 generic atomic live="polite" relevant="additions text"
+  uid=12_26 generic atomic live="polite" relevant="additions text"
+  uid=15_7 StaticText "FUNCTION RESPONSE"
+  uid=15_8 StaticText "content"
+  uid=15_9 StaticText ":"
+  uid=15_10 StaticText " "
+  uid=15_11 StaticText "["
+  uid=15_12 StaticText "0"
+  uid=15_13 StaticText ":"
+  uid=15_14 StaticText " "
+  uid=15_15 StaticText "type"
+  uid=15_16 StaticText ":"
+  uid=15_17 StaticText " "
+  uid=15_18 StaticText ""text""
+  uid=15_19 StaticText "text"
+  uid=15_20 StaticText ":"
+  uid=15_21 StaticText " "
+  uid=15_22 StaticText ""Current Weather for Brisbane, AU:
+Source: OpenWeather Current Weather API
+
+Temperature: 20.67°C
+Feels like: 20.67°C
+Condition: light rain
+Humidity: 72%
+Wind: 19.12 km/h, 143°
+Pressure: 1023 hPa
+UV Index: unavailable in this API
+Visibility: 10.0 km
+Last updated (data calculation, local time): 2026-10-14T18:43:29+10:00
+""
+  uid=15_23 StaticText "]"
+  uid=15_24 StaticText "structuredContent"
+  uid=15_25 StaticText ":"
+  uid=15_26 StaticText " "
+  uid=15_27 StaticText "result"
+  uid=15_28 StaticText ":"
+  uid=15_29 StaticText " "
+  uid=15_30 StaticText ""Current Weather for Brisbane, AU:
+Source: OpenWeather Current Weather API
+
+Temperature: 20.67°C
+Feels like: 20.67°C
+Condition: light rain
+Humidity: 72%
+Wind: 19.12 km/h, 143°
+Pressure: 1023 hPa
+UV Index: unavailable in this API
+Visibility: 10.0 km
+Last updated (data calculation, local time): 2026-10-14T18:43:29+10:00
+""
+  uid=15_31 StaticText "isError"
+  uid=15_32 StaticText ":"
+  uid=15_33 StaticText " "
+  uid=15_34 StaticText "false"
+

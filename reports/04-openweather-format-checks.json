@@ -1,0 +1,7 @@
+{
+  "syntax": "PASS",
+  "forecast_days_1_3_10": "PASS (1,3,3)",
+  "local_timezone": "PASS Brisbane +10:00",
+  "missing_visibility": "PASS explicitly unavailable",
+  "uv": "explicitly unavailable"
+}

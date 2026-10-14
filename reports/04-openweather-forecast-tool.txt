@@ -1,0 +1,29 @@
+Weather Forecast for Marunouchi, JP:
+---
+Source: OpenWeather 5-day / 3-hour forecast. First day may be partial.
+---
+High/low are extrema of available 3-hour temperatures; rain chance is the maximum interval probability.
+---
+2026-10-14 (local date; 2 forecast intervals):
+High (interval maximum): 23.55°C
+Low (interval minimum): 22.69°C
+Condition: light rain, scattered clouds
+Chance of Rain (maximum 3-hour probability): 25%
+Max Wind: 22.72 km/h
+UV Index: unavailable in this API
+---
+2026-10-15 (local date; 8 forecast intervals):
+High (interval maximum): 21.36°C
+Low (interval minimum): 16.8°C
+Condition: light rain, overcast clouds, broken clouds, few clouds, scattered clouds
+Chance of Rain (maximum 3-hour probability): 25%
+Max Wind: 16.7 km/h
+UV Index: unavailable in this API
+---
+2026-10-16 (local date; 8 forecast intervals):
+High (interval maximum): 24.18°C
+Low (interval minimum): 17.34°C
+Condition: overcast clouds
+Chance of Rain (maximum 3-hour probability): 0%
+Max Wind: 9.68 km/h
+UV Index: unavailable in this API

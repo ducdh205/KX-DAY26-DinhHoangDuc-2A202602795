@@ -1,0 +1,7 @@
+{
+  "provider": "OpenWeather",
+  "new_key_http_status": 401,
+  "message": "Invalid API key. Please see https://openweathermap.org/faq#error401 for more info.",
+  "previous_key_just_verified": true,
+  "new_key_saved": false
+}

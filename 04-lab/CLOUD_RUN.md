@@ -10,9 +10,11 @@ Deploy từ source dùng Dockerfile trong `mcp-server`. Cloud Build và Artifact
 
 ## Chuẩn bị
 
-Cần Google Cloud project có billing và API cần thiết, `gcloud` đã đăng nhập, service account dùng cho runtime, và WeatherAPI key. Các quyền deploy/build được mô tả trong [tài liệu deploy từ source](https://docs.cloud.google.com/run/docs/deploying-source-code).
+Cần Google Cloud project có billing và API cần thiết, `gcloud` đã đăng nhập, service account dùng cho runtime, và key của nguồn thời tiết. Các quyền deploy/build được mô tả trong [tài liệu deploy từ source](https://docs.cloud.google.com/run/docs/deploying-source-code).
 
 Lưu key trong Secret Manager, rồi ánh xạ secret thành biến môi trường `WEATHERAPI_KEY`. Service account runtime cần quyền `roles/secretmanager.secretAccessor` trên secret đó. Dùng phiên bản secret cụ thể, không ghi key vào Dockerfile hoặc lệnh deploy. [Tài liệu secrets](https://docs.cloud.google.com/run/docs/configuring/services/secrets).
+
+Server đã bổ sung nguồn OpenWeather. Để dùng nguồn này, thay secret mẫu thành `openweather-key` và ánh xạ `OPENWEATHER_API_KEY` trong `--update-secrets`; không cấu hình `WEATHERAPI_KEY`. Nếu cả hai biến có mặt, server ưu tiên WeatherAPI. OpenWeather được kiểm chứng tại localhost; deployment Cloud Run vẫn chưa thực hiện.
 
 ## Lệnh deploy dự kiến
 

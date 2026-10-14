@@ -2,6 +2,8 @@
 
 Ngày thực hiện: 14/10/2026 (Asia/Saigon).
 
+Nguồn thời tiết thật đã được đổi sang **OpenWeather** theo yêu cầu của người thực hiện. Luồng ADK → MCP → REST giữ nguyên; dữ liệu OpenWeather không được ghi là WeatherAPI. Hai endpoint OpenWeather đang dùng không có UV. Phần cuối báo cáo ghi trạng thái checkpoint so với đề gốc.
+
 ## Bước 1 — Function Calling thuần
 
 ### 1. Mục tiêu và phạm vi
@@ -440,11 +442,11 @@ Log thực tế tại [04-weather-server.log](reports/04-weather-server.log) có
 | Danh sách tool | `get_current_weather`, `get_forecast`, `health_check` |
 | `health_check()` | `✅ Weather MCP Server is running! Ready to provide weather data for Australian cities and worldwide.` |
 
-### 3. Trạng thái WeatherAPI key
+### 3. Nguồn OpenWeather đã hoạt động
 
-**Server đã sẵn sàng về giao thức MCP; cấu hình WeatherAPI còn chờ key.** Tại thời điểm kiểm tra, `WEATHERAPI_KEY` chưa có trong môi trường hoặc file `.env` của server. Chưa gọi tool lấy thời tiết/forecast và chưa có bằng chứng dữ liệu thật từ WeatherAPI.
+**Server đã lấy dữ liệu OpenWeather thật qua MCP.** `WEATHERAPI_KEY` chưa được cấu hình. Theo yêu cầu dùng OpenWeather, server đọc `OPENWEATHER_API_KEY` từ môi trường và chọn nguồn này khi không có WeatherAPI key. Ba tên tool và transport HTTP vẫn giữ nguyên. Nếu có `WEATHERAPI_KEY`, nhánh WeatherAPI ban đầu được ưu tiên.
 
-Key cần được lưu riêng tại `04-lab/mcp-server/.env` với tên biến `WEATHERAPI_KEY`. Đây là key WeatherAPI.com, khác Gemini key. File `.env` và `.venv` của server đều được Git bỏ qua.
+Key OpenWeather được lưu tại `04-lab/mcp-server/.env` với tên `OPENWEATHER_API_KEY`. File `.env` và `.venv` đều được Git bỏ qua. Key mới gửi sau bị OpenWeather trả 401 và không thay thế key trước đã hoạt động. Hai kết quả đã che key: [key trước HTTP 200](reports/04-openweather-key-recheck.json), [key mới HTTP 401](reports/04-openweather-new-key-check.json).
 
 Sau khi có key, cần khởi động lại server và nạp `.env`, vì `weather.py` đọc key khi module được nạp và không tự đọc file `.env`. Lệnh tương đương cho lần khởi động có key:
 
@@ -452,13 +454,17 @@ Sau khi có key, cần khởi động lại server và nạp `.env`, vì `weathe
 PORT=8085 uv run --frozen --env-file .env python -u weather.py
 ```
 
-Chưa chụp ảnh bước này theo yêu cầu đề; bằng chứng dữ liệu thật và kết nối agent sẽ được bổ sung khi chạy bước 5.
+Đã kiểm chứng `initialize()`, `list_tools()`, `get_current_weather("Brisbane,AU")` và `get_forecast("Tokyo,JP", 3)` trên server HTTP. Output đầy đủ tại [04-live-mcp-weather.json](reports/04-live-mcp-weather.json); log server sau khi nạp key tại [04-weather-server-openweather.log](reports/04-weather-server-openweather.log).
+
+Server đổi tên thành phố sang tọa độ qua [Geocoding API](https://openweathermap.org/api/geocoding-api). Dữ liệu hiện tại dùng [Current Weather API](https://openweathermap.org/api/current): nhiệt độ °C, gió m/s đổi sang km/h, thời điểm `dt` đổi sang giờ địa phương. UV được ghi `unavailable` vì endpoint này không trả trường UV.
+
+Dự báo dùng [5-day / 3-hour API](https://openweathermap.org/api/forecast5), nhóm theo ngày địa phương và giới hạn tối đa ba ngày. Cao/thấp là cực trị của nhiệt độ tại các mốc còn có; khả năng mưa là `max(pop) × 100` trong ngày. Đây là phép tổng hợp của app, không phải dự báo ngày độc lập từ nhà cung cấp; ngày đầu có thể thiếu mốc. Kiểm tra định dạng, giới hạn ngày và dữ liệu thiếu tại [04-openweather-format-checks.json](reports/04-openweather-format-checks.json).
 
 ## Bước 5 — Kết nối Google ADK với MCP server
 
 ### 1. Setup client và giao diện
 
-Đã cài dependency bằng `uv sync --frozen` trong `04-lab/mcp-client`, tạo `.venv` riêng theo `uv.lock`. File `04-lab/mcp-client/.env` được ghi UTF-8, chứa `GOOGLE_API_KEY` dùng Gemini key đã có ở bước 1. File này được Git bỏ qua; giá trị key không xuất hiện trong bằng chứng.
+Đã cài dependency bằng `uv sync --frozen` trong `04-lab/mcp-client`, tạo `.venv` riêng theo `uv.lock`. File `04-lab/mcp-client/.env` được ghi UTF-8, chứa `GOOGLE_API_KEY`. Key cũ bị Google trả 403 do giới hạn IP; key mới được kiểm tra thành công và thay riêng tại client. File này được Git bỏ qua; giá trị key không xuất hiện trong bằng chứng.
 
 | Thành phần | Phiên bản đã kiểm tra |
 | --- | --- |
@@ -467,6 +473,7 @@ Chưa chụp ảnh bước này theo yêu cầu đề; bằng chứng dữ liệ
 | Google GenAI SDK | 2.10.0 |
 | MCP Python SDK | 1.28.1 |
 | Model cấu hình trong agent | `gemini-2.5-flash` |
+| Model thay thế qua `.env` | `GEMINI_MODEL=gemini-3.5-flash-lite` |
 | MCP endpoint | `http://localhost:8085/mcp` |
 
 Đã chạy `uv run --frozen adk web` trong terminal riêng `Lab 04 - Google ADK Web :8000`, giữ MCP server cổng 8085 chạy song song. Giao diện tại `http://localhost:8000/dev-ui/?app=weather_agent` đã mở bằng trình duyệt Chrome riêng cho bài lab và chọn `weather_agent`. Cấu trúc giao diện được lưu tại [04-adk-ui-snapshot.txt](reports/04-adk-ui-snapshot.txt); log web tại [04-adk-web.log](reports/04-adk-web.log).
@@ -501,9 +508,9 @@ Nguồn: [weather_agent/agent.py](04-lab/mcp-client/weather_agent/agent.py).
 | Điều phối Function Calling | Nhận yêu cầu tool của Gemini, gọi MCP, trả kết quả cho model tổng hợp |
 | Cung cấp giao diện | `adk web` chạy tại cổng 8000 |
 
-Trong lần kiểm tra hiện tại đã xác nhận setup, giao diện và khám phá MCP; phần model chọn tool rồi tổng hợp dữ liệu thời tiết thật còn chờ WeatherAPI key.
+Code hỗ trợ `GEMINI_MODEL`, mặc định vẫn là `gemini-2.5-flash`. Lượt thời tiết hiện tại dùng 2.5 Flash thành công. Ba lượt dự báo với model này gặp HTTP 503; 2.5 Flash-Lite trả 404, vì vậy đã cấu hình 3.5 Flash-Lite cho lượt dự báo. [Tài liệu Google](https://ai.google.dev/gemini-api/docs/models/gemini-3.5-flash-lite) xác nhận model thay thế hỗ trợ Function Calling. Thay đổi này được ghi rõ để người chấm biết model của từng bằng chứng.
 
-### 4. Checkpoint bước 5 — còn chờ WeatherAPI key
+### 4. Kết quả chat thời tiết thật
 
 | Yêu cầu | Trạng thái |
 | --- | --- |
@@ -511,11 +518,29 @@ Trong lần kiểm tra hiện tại đã xác nhận setup, giao diện và khá
 | `verify_setup.py` báo All checks passed | ĐẠT, có `screenshots/04-verify-setup.png` |
 | ADK khám phá ba MCP tool, không fallback | ĐẠT |
 | Giao diện `weather_agent` ở cổng 8000 | ĐÃ MỞ |
-| Câu hỏi thời tiết hiện tại có cảm giác như, độ ẩm, UV và thời điểm cập nhật | CHỜ `WEATHERAPI_KEY` |
-| Dự báo theo ngày có nhiệt độ cao/thấp và khả năng mưa | CHỜ `WEATHERAPI_KEY` |
-| `screenshots/04-adk-current.png`, `screenshots/04-adk-forecast.png` | CHƯA TẠO |
+| Câu hỏi thời tiết hiện tại có cảm giác như, độ ẩm và thời điểm cập nhật | ĐẠT với OpenWeather; UV không có trong endpoint |
+| Dự báo theo ngày có nhiệt độ cao/thấp và khả năng mưa | Tổng hợp các mốc OpenWeather 3 giờ; không dùng dữ liệu mock |
+| `screenshots/04-adk-current.png`, `screenshots/04-adk-forecast.png` | Ảnh chụp trực tiếp ADK, có câu hỏi, tool call và trả lời |
 
-**Checkpoint bước 5: CHƯA ĐẠT.** File `04-lab/mcp-server/.env` chưa có WeatherAPI key, nên chưa thực hiện hai lượt chat lấy dữ liệu thật. Sau khi lưu `WEATHERAPI_KEY` tại đó, cần khởi động lại MCP server để nạp key, rồi hỏi thời tiết hiện tại ở Brisbane và dự báo 3 ngày ở Tokyo, đối chiếu sự kiện gọi tool và lưu hai ảnh chat.
+**Luồng dữ liệu thật dùng OpenWeather theo yêu cầu đổi nguồn.** So với đề gốc, tiêu chí nguồn WeatherAPI và chỉ số UV vẫn chưa được đáp ứng. Bằng chứng không được ghi là WeatherAPI.
+
+Lượt hiện tại: Gemini 2.5 Flash gọi `get_current_weather("Brisbane")`. Kết quả tool và câu trả lời cùng có nhiệt độ 20,67°C, cảm giác như 20,67°C, độ ẩm 72%, gió 19,12 km/h, áp suất 1023 hPa, thời điểm `2026-10-14T18:43:29+10:00`. UV được trả rõ là không có. Nội dung câu hỏi, sự kiện gọi tool, function response và trả lời lưu tại [04-adk-current-chat.txt](reports/04-adk-current-chat.txt).
+
+![ADK lấy thời tiết Brisbane thật qua MCP](screenshots/04-adk-current.png)
+
+Lượt dự báo dùng Gemini 3.5 Flash-Lite. Chi tiết tool và câu trả lời tại [04-adk-forecast-chat.txt](reports/04-adk-forecast-chat.txt).
+
+Log ADK của hai giai đoạn: [thời tiết hiện tại và các lỗi 503](reports/04-adk-web-current.log), [dự báo với model thay thế](reports/04-adk-web-forecast.log). Bằng chứng sự kiện tool được đọc từ giao diện ADK; không lưu header xác thực của request mạng.
+
+| Ngày Tokyo | Cao/thấp trong tool (°C) | Cao/thấp trong trả lời (°C) | Xác suất mưa lớn nhất theo mốc |
+| --- | --- | --- | --- |
+| 2026-10-14, còn 1 mốc | 22,46 / 22,46 | 22,5 / 22,5 | 0% |
+| 2026-10-15, 8 mốc | 21,36 / 16,80 | 21,4 / 16,8 | 25% |
+| 2026-10-16, 8 mốc | 24,18 / 17,34 | 24,2 / 17,3 | 0% |
+
+Các số trong câu trả lời khớp tool sau khi làm tròn một chữ số thập phân. Lượt MCP kiểm tra trước đó có hai mốc còn lại của ngày 14/10; lượt chat sau chỉ còn một mốc. Report giữ riêng hai output theo thời điểm gọi, không gán dữ liệu lần trước cho ảnh chat sau.
+
+![ADK lấy dự báo Tokyo thật qua MCP](screenshots/04-adk-forecast.png)
 
 ## Tùy chọn — Deploy MCP server lên Cloud Run
 
@@ -529,7 +554,7 @@ Trong lần kiểm tra hiện tại đã xác nhận setup, giao diện và khá
 
 Dockerfile gốc build image thành công, nhưng lần chạy container đầu tiên lỗi import `mcp.server.fastmcp`. Nguyên nhân: `pip install -e .` cài MCP 2.3.0 từ constraint không có giới hạn major, trong khi server Lab 04 sử dụng API FastMCP của SDK 1.x. Lỗi thực tế được lưu tại [05-cloud-run-initial-import.txt](reports/05-cloud-run-initial-import.txt).
 
-Đã sửa riêng dependency server thành `mcp[cli]>=1.16.0,<2` trong [pyproject.toml](04-lab/mcp-server/pyproject.toml) và cập nhật [uv.lock](04-lab/mcp-server/uv.lock). Dockerfile và `weather.py` giữ nguyên; môi trường bước 1–3 vẫn dùng SDK 2.x.
+Đã sửa riêng dependency server thành `mcp[cli]>=1.16.0,<2` trong [pyproject.toml](04-lab/mcp-server/pyproject.toml) và cập nhật [uv.lock](04-lab/mcp-server/uv.lock). Dockerfile giữ nguyên; `weather.py` sau đó được bổ sung nguồn OpenWeather. Môi trường bước 1–3 vẫn dùng SDK 2.x.
 
 ### 3. Kết quả kiểm tra container local
 
@@ -548,11 +573,13 @@ Dockerfile gốc build image thành công, nhưng lần chạy container đầu 
 
 Bằng chứng: [build log](reports/05-cloud-run-build.log), [container log](reports/05-cloud-run-container.log) và [kết quả kiểm tra](reports/05-cloud-run-local-checks.json). Kiểm tra local này không gọi WeatherAPI và không chứng minh dữ liệu thời tiết thật.
 
+Sau khi bổ sung OpenWeather, đã build lại image từ source cuối cùng và kiểm tra lại MCP `initialize`, `list_tools`, `health_check`: đều đạt. [Kết quả image mới](reports/05-cloud-run-updated-image-checks.json) ghi image ID; [log container mới](reports/05-cloud-run-updated-container.log) ghi startup HTTP. Container thử nghiệm không có credential và đã được xóa; ảnh nguồn ZIP đã cập nhật theo `weather.py` mới.
+
 ### 4. Trạng thái deploy thật
 
-**CHƯA TRIỂN KHAI CLOUD RUN.** Đã nhận project ID `keen-honor-491605-r5`; hướng dẫn dùng region đề xuất `asia-southeast1`. Máy chưa có `gcloud`, chưa có quyền đăng nhập Google Cloud được cung cấp, và vẫn thiếu WeatherAPI key. Chưa tạo service hoặc thay đổi IAM trên Google Cloud.
+**CHƯA TRIỂN KHAI CLOUD RUN.** Đã nhận project ID `keen-honor-491605-r5`; hướng dẫn dùng region đề xuất `asia-southeast1`. Máy chưa có `gcloud` hoặc phiên đăng nhập Google Cloud để deploy. OpenWeather key đã hoạt động ở local. Chưa tạo service hoặc thay đổi IAM trên Google Cloud.
 
-Khi có project, cần cấu hình `WEATHERAPI_KEY` cho service; hướng dẫn dùng Secret Manager để ánh xạ secret vào biến môi trường. `PORT` do Cloud Run cấp, code đã hỗ trợ. Client hiện chưa gửi Google identity token, nên cần lựa chọn public access cho lab hoặc bổ sung xác thực nếu service private; lựa chọn này chưa được thực hiện.
+Khi deploy, cần ánh xạ secret vào `WEATHERAPI_KEY` hoặc `OPENWEATHER_API_KEY` theo nguồn được chọn; hướng dẫn dùng Secret Manager. `PORT` do Cloud Run cấp, code đã hỗ trợ. Client hiện chưa gửi Google identity token, nên cần lựa chọn public access cho lab hoặc bổ sung xác thực nếu service private; lựa chọn này chưa được thực hiện.
 
 `MCP_SERVER_URL` của client vẫn dùng mặc định `http://localhost:8085/mcp`. Chỉ đổi sang `https://<service>.run.app/mcp` sau khi có URL thật. Chưa tạo `screenshots/05-cloud-run.png`; checkpoint tùy chọn cần verification trên URL Cloud Run và câu trả lời lấy dữ liệu thật từ tool.
 
@@ -562,20 +589,22 @@ Repo cá nhân: [ducdh205/KX-DAY26-DinhHoangDuc-2A202602795](https://github.com/
 
 Đã mở repo bằng trình duyệt trong context mới không đăng nhập: trang hiển thị `Public`, có liên kết `Sign in` và xác nhận fork từ `VinUni-AI20k/Day26-MCP-Tools-Integration`. Tên repo đúng định dạng yêu cầu.
 
-Đã mở lại toàn bộ bảy ảnh hiện có để kiểm tra độ rõ và việc che key. Nội dung terminal đọc được; ảnh verification chỉ có `[redacted]`. Các file dự kiến commit được kiểm tra giá trị API key đã cấu hình và mẫu Google API key, gồm log UTF-8/UTF-16 và nội dung giải nén của source ZIP. Không phát hiện giá trị key; không có `.env` hoặc file private key trong danh sách file Git đang theo dõi.
+Đã xem lại các ảnh để kiểm tra độ rõ và việc che key. Nội dung terminal đọc được; ảnh verification chỉ có `[redacted]`; hai ảnh ADK hiển thị câu hỏi, tool và trả lời. Các file dự kiến commit được kiểm tra giá trị API key đã cấu hình và mẫu Google API key, gồm log UTF-8/UTF-16 và nội dung giải nén của source ZIP. Không có `.env` hoặc file private key trong danh sách file Git đang theo dõi.
 
 | Checklist nộp bài | Trạng thái |
 | --- | --- |
 | Tên repo đúng `KX-DAY26-HoVaTen-MSSV` | ĐẠT |
-| Đủ 9 ảnh bắt buộc | CHƯA ĐẠT: hiện có 7/9 |
-| Hai ảnh ADK có dữ liệu WeatherAPI thật | CHƯA ĐẠT: còn thiếu `WEATHERAPI_KEY` |
+| Đủ 9 ảnh bắt buộc | ĐẠT: 9/9 ảnh |
+| Hai ảnh ADK có dữ liệu WeatherAPI thật | KHÁC ĐỀ GỐC: có dữ liệu OpenWeather thật theo yêu cầu đổi nguồn; không có UV |
 | Các file/bằng chứng chuẩn bị commit không chứa API key | ĐẠT theo kiểm tra giá trị key, mẫu key và xem ảnh |
 | Người không đăng nhập mở được repo | ĐẠT: fork public |
 
-**Tổng: 3/5 mục đã đạt. Chưa nộp VLearn.** Còn cần chạy hai lượt chat với dữ liệu WeatherAPI thật, tạo `04-adk-current.png` và `04-adk-forecast.png`, cập nhật report/README và push bổ sung trước khi nộp link repo. Ảnh Cloud Run không bắt buộc vì chưa triển khai phần tùy chọn.
+**Tổng theo đề gốc: 4/5 mục đạt; mục nguồn WeatherAPI còn khác yêu cầu. Chưa nộp VLearn.** Repo đã chuẩn bị báo cáo, dữ liệu thật và đủ chín ảnh. Việc dùng OpenWeather cần được ghi nhận khi chấm bài; nếu yêu cầu WeatherAPI bắt buộc, cần chạy lại hai lượt bằng WeatherAPI. Ảnh Cloud Run không bắt buộc vì chưa triển khai phần tùy chọn.
+
+Theo yêu cầu cuối của người thực hiện, chuẩn bị commit và push repo; người thực hiện tự nộp VLearn.
 
 ### Cập nhật key được cung cấp
 
 Người dùng cung cấp key OpenWeather. Đã lưu key ở file `.env` được Git bỏ qua và kiểm tra bằng endpoint chính thức `/data/2.5/weather` cho Brisbane. Kết quả thực tế là HTTP `401`, thông báo `Invalid API key`; không nhận được dữ liệu thời tiết. Kết quả đã loại giá trị key được lưu tại [04-openweather-key-check.json](reports/04-openweather-key-check.json).
 
-OpenWeather là dịch vụ khác WeatherAPI đang được dùng trong `weather.py`. Key này chưa thể dùng để tạo hai ảnh thời tiết thật. Theo [FAQ OpenWeather](https://openweathermap.org/faq#error401), key mới có thể cần vài giờ để kích hoạt; phản hồi 401 hiện tại chưa xác định được key sai hay chưa kích hoạt. Chưa thay provider trong server khi chưa có lời gọi OpenWeather thành công.
+Đây là kết quả của lần kiểm tra trước khi key hoạt động. Lần kiểm tra sau đã trả HTTP 200 và có dữ liệu thật, được ghi trong [04-openweather-key-recheck.json](reports/04-openweather-key-recheck.json). Theo [FAQ OpenWeather](https://openweathermap.org/faq#error401), key mới có thể cần vài giờ để kích hoạt. Server đã bổ sung OpenWeather sau khi kiểm tra thành công; nguồn thực tế và các giới hạn được trình bày ở bước 4–5.

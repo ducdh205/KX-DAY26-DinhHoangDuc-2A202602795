@@ -6,7 +6,7 @@ Repo: [KX-DAY26-DinhHoangDuc-2A202602795](https://github.com/ducdh205/KX-DAY26-D
 
 Báo cáo và log kiểm chứng: [REPORT.md](REPORT.md). Ảnh bằng chứng nằm trong [screenshots/](screenshots/).
 
-**Trạng thái: có 7/9 ảnh bắt buộc, chưa đủ điều kiện nộp cuối cùng.** Hai ảnh chat thời tiết thật còn chờ `WEATHERAPI_KEY` ở phía MCP server. Phần Cloud Run là tùy chọn và chưa deploy.
+**Trạng thái: có 9/9 ảnh bằng chứng.** Hai ảnh ADK dùng dữ liệu OpenWeather thật theo yêu cầu đổi nguồn của người thực hiện. Nguồn này khác WeatherAPI trong đề gốc và không cung cấp UV ở hai endpoint đang dùng; report ghi rõ giới hạn. Cloud Run chưa deploy và chưa nộp VLearn.
 
 | Bằng chứng | Trạng thái |
 | --- | --- |
@@ -17,11 +17,11 @@ Báo cáo và log kiểm chứng: [REPORT.md](REPORT.md). Ảnh bằng chứng n
 | [03b-registry.png](screenshots/03b-registry.png) | Chọn `get_weather_v2` v2.0.0 |
 | [03c-versioning.png](screenshots/03c-versioning.png) | v1/v2 hoạt động và có metadata deprecated |
 | [04-verify-setup.png](screenshots/04-verify-setup.png) | All checks passed; phần key đã che |
-| `04-adk-current.png` | Chưa có dữ liệu WeatherAPI thật |
-| `04-adk-forecast.png` | Chưa có dữ liệu WeatherAPI thật |
+| [04-adk-current.png](screenshots/04-adk-current.png) | ADK gọi tool lấy thời tiết Brisbane từ OpenWeather |
+| [04-adk-forecast.png](screenshots/04-adk-forecast.png) | ADK gọi tool dự báo Tokyo; tổng hợp các mốc 3 giờ |
 | `05-cloud-run.png` (tùy chọn) | Chưa deploy Cloud Run |
 
-Ảnh terminal hiển thị lại log thực tế đã lưu; nguồn và giới hạn bằng chứng được ghi trong report. Giá trị API key và các file `.env` không được đưa vào repo.
+Ảnh terminal hiển thị lại log thực tế đã lưu; hai ảnh ADK chụp trực tiếp giao diện chat. Nguồn và giới hạn bằng chứng được ghi trong report. Giá trị API key và các file `.env` không được đưa vào repo.
 
 ---
 

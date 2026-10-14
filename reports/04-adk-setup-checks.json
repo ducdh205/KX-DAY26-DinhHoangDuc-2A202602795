@@ -17,5 +17,13 @@
     "health_check"
   ],
   "weatherapi_key_configured": false,
-  "real_weather_checkpoint_passed": false
+  "real_weather_checkpoint_passed": false,
+  "current_chat_model": "gemini-2.5-flash",
+  "forecast_chat_model": "gemini-3.5-flash-lite",
+  "real_weather_provider": "OpenWeather",
+  "real_weather_mcp_verified": true,
+  "adk_current_function_call_verified": true,
+  "adk_forecast_function_call_verified": true,
+  "reply_values_match_tool": true,
+  "original_weatherapi_and_uv_requirement_met": false
 }

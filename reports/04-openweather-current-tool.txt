@@ -1,0 +1,12 @@
+Current Weather for Brisbane, AU:
+Source: OpenWeather Current Weather API
+
+Temperature: 20.67°C
+Feels like: 20.67°C
+Condition: light rain
+Humidity: 72%
+Wind: 19.12 km/h, 143°
+Pressure: 1023 hPa
+UV Index: unavailable in this API
+Visibility: 10.0 km
+Last updated (data calculation, local time): 2026-10-14T18:40:47+10:00

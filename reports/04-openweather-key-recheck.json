@@ -1,0 +1,9 @@
+{
+  "provider": "OpenWeather",
+  "checked_at_utc": "2026-10-14T08:35:10.171938+00:00",
+  "status_code": 200,
+  "code": 200,
+  "message": null,
+  "city": "Brisbane",
+  "new_key_confirmed_by_user": true
+}

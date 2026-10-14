@@ -1,0 +1,28 @@
+✅ MCP server initialized with Streamable HTTP transport
+🔧 Available tools: get_current_weather, get_forecast, health_check
+🚀 Starting MCP server on http://0.0.0.0:8080/mcp
+INFO:     Started server process [1]
+INFO:     Waiting for application startup.
+[10/14/26 09:00:31] INFO     StreamableHTTP       streamable_http_manager.py:164
+                             session manager                                    
+                             started                                            
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+[10/14/26 09:01:01] INFO     Created new          streamable_http_manager.py:330
+                             transport with                                     
+                             session ID:                                        
+                             42bcd15713a845e78a1a                               
+                             d98c96827292                                       
+INFO:     172.18.0.1:41888 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     172.18.0.1:41904 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     172.18.0.1:41902 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     172.18.0.1:41910 - "POST /mcp HTTP/1.1" 200 OK
+                    INFO     Processing request of type            server.py:733
+                             ListToolsRequest                                   
+INFO:     172.18.0.1:41920 - "POST /mcp HTTP/1.1" 200 OK
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Terminating session:         streamable_http.py:831
+                             42bcd15713a845e78a1ad98c9682                       
+                             7292                                               
+INFO:     172.18.0.1:41926 - "DELETE /mcp HTTP/1.1" 200 OK
