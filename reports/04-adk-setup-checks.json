@@ -1,0 +1,21 @@
+{
+  "verify_exit_code": 0,
+  "all_checks_passed": true,
+  "key_prefix_redacted": true,
+  "packages": {
+    "google-adk": "2.3.0",
+    "google-genai": "2.10.0",
+    "mcp": "1.28.1",
+    "fastmcp": "3.4.2"
+  },
+  "agent_name": "weather_agent",
+  "model": "gemini-2.5-flash",
+  "fallback_agent": false,
+  "discovered_tools": [
+    "get_current_weather",
+    "get_forecast",
+    "health_check"
+  ],
+  "weatherapi_key_configured": false,
+  "real_weather_checkpoint_passed": false
+}

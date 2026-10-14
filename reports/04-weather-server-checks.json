@@ -1,0 +1,12 @@
+{
+  "url": "http://localhost:8085/mcp",
+  "transport": "streamable-http",
+  "tools": [
+    "get_current_weather",
+    "get_forecast",
+    "health_check"
+  ],
+  "health_check": "✅ Weather MCP Server is running! Ready to provide weather data for Australian cities and worldwide.",
+  "weatherapi_key_configured": false,
+  "real_weather_verified": false
+}

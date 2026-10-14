@@ -1,0 +1,61 @@
+/mnt/e/AIVin/KX-DAY26-DinhHoangDuc-2A202602795/03-production/auth_server.py:50: MCPDeprecationWarning: `AuthSettings.validate_token_resource` is not set, so bearer tokens are not checked against `resource_server_url`; it will default to True in 3.0 when `resource_server_url` is set. Set it to True to have the server refuse tokens issued for another resource, or to False if your TokenVerifier validates the token's audience itself.
+  auth=AuthSettings(
+/mnt/e/AIVin/KX-DAY26-DinhHoangDuc-2A202602795/.venv/lib/python3.12/site-packages/mcp/server/mcpserver/server.py:188: MCPDeprecationWarning: `AuthSettings.validate_token_resource` is not set, so bearer tokens are not checked against `resource_server_url`; it will default to True in 3.0 when `resource_server_url` is set. Set it to True to have the server refuse tokens issued for another resource, or to False if your TokenVerifier validates the token's audience itself.
+  self.settings = Settings(
+INFO:     Started server process [2102]
+INFO:     Waiting for application startup.
+[10/14/26 14:37:39] INFO     StreamableHTTP       streamable_http_manager.py:162
+                             session manager                                    
+                             started                                            
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:36768 - "GET /mcp HTTP/1.1" 401 Unauthorized
+[10/14/26 14:37:43] INFO     Created new          streamable_http_manager.py:325
+                             transport with                                     
+                             session ID:                                        
+                             8be20c2e126145dfae71                               
+                             314507681b68                                       
+INFO:     127.0.0.1:52986 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52998 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:53010 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53014 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53016 - "POST /mcp HTTP/1.1" 200 OK
+                    INFO     Terminating session:         streamable_http.py:855
+                             8be20c2e126145dfae7131450768                       
+                             1b68                                               
+INFO:     127.0.0.1:53018 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53026 - "POST /mcp HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:53038 - "POST /mcp HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:53050 - "POST /mcp HTTP/1.1" 401 Unauthorized
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+[10/14/26 14:37:47] INFO     StreamableHTTP       streamable_http_manager.py:166
+                             session manager                                    
+                             shutting down                                      
+INFO:     Application shutdown complete.
+INFO:     Finished server process [2102]
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/asyncio/base_events.py", line 687, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+asyncio.exceptions.CancelledError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/mnt/e/AIVin/KX-DAY26-DinhHoangDuc-2A202602795/03-production/auth_server.py", line 71, in <module>
+    mcp.run(transport="streamable-http", host="0.0.0.0", port=8000)
+  File "/mnt/e/AIVin/KX-DAY26-DinhHoangDuc-2A202602795/.venv/lib/python3.12/site-packages/mcp/server/mcpserver/server.py", line 425, in run
+    anyio.run(lambda: self.run_streamable_http_async(**kwargs))
+  File "/mnt/e/AIVin/KX-DAY26-DinhHoangDuc-2A202602795/.venv/lib/python3.12/site-packages/anyio/_core/_eventloop.py", line 83, in run
+    return async_backend.run(func, args, {}, backend_options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/e/AIVin/KX-DAY26-DinhHoangDuc-2A202602795/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 2548, in run
+    return runner.run(wrapper())
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/asyncio/runners.py", line 123, in run
+    raise KeyboardInterrupt()
+KeyboardInterrupt

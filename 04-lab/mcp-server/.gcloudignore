@@ -1,0 +1,7 @@
+# Upload only the inputs used by Dockerfile; exclude local credentials and venvs.
+*
+!Dockerfile
+!pyproject.toml
+!weather.py
+!.dockerignore
+!.gcloudignore

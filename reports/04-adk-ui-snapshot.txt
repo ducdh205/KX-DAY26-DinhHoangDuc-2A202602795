@@ -1,0 +1,29 @@
+## Latest page snapshot
+uid=1_0 RootWebArea "Agent Development Kit Dev UI" url="http://localhost:8000/dev-ui/?app=weather_agent"
+  uid=1_1 button "Toggle side panel"
+  uid=1_2 image "ADK Logo" url="http://localhost:8000/dev-ui/assets/ADK-512-color.svg"
+  uid=1_3 StaticText "Agent Development Kit"
+  uid=1_4 StaticText " 2.3.0"
+  uid=1_5 button "weather_agent" description="Select an app"
+  uid=1_6 button
+  uid=1_7 button disableable disabled
+  uid=1_8 button "NEW SESSION" description="Select a session"
+  uid=1_9 button description="Switch to Light Mode"
+  uid=1_10 button "User menu" description="User" expandable haspopup="menu"
+  uid=1_11 tab "Info" selectable selected
+  uid=1_12 tab "State" selectable
+  uid=1_13 tab "Artifacts" selectable
+  uid=1_14 tab "Evals" selectable
+  uid=1_15 StaticText "Select an event or trace span to view details"
+  uid=1_16 radio "Events" checked
+  uid=1_17 radio "Traces"
+  uid=1_18 button "Filter" description="Add a filter" expandable haspopup="menu"
+  uid=1_19 button description="Retrieve latest session and show"
+  uid=1_20 button "More options" expandable haspopup="menu"
+  uid=1_21 button description="Actions" expandable haspopup="menu"
+  uid=1_22 textbox "Type a message..." multiline
+  uid=1_23 button
+  uid=1_24 button description="Send message"
+  uid=1_25 generic atomic live="polite" relevant="additions text"
+  uid=1_26 generic atomic live="polite" relevant="additions text"
+

@@ -1,0 +1,6 @@
+# Only application files are needed in the image build context.
+*
+!Dockerfile
+!pyproject.toml
+!weather.py
+!.dockerignore

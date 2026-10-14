@@ -1,0 +1,19 @@
+{
+  "image": "weather-mcp:cloud-run-lab",
+  "container_port": 8080,
+  "host_test_port": 8086,
+  "cloud_run_deployed": false,
+  "real_weather_verified": false,
+  "readiness_http_status": 406,
+  "tools": [
+    "get_current_weather",
+    "get_forecast",
+    "health_check"
+  ],
+  "health_check": "✅ Weather MCP Server is running! Ready to provide weather data for Australian cities and worldwide.",
+  "mcp_version": "1.30.0",
+  "image_id": "sha256:7316fbb6b98b6f6266c643ceab15f4e2c2fa5ac74b0f227f812661a7a21e65c9",
+  "env_file_excluded": true,
+  "runtime_verified": true,
+  "temporary_container_removed": true
+}

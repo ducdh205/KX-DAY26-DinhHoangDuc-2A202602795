@@ -1,0 +1,10 @@
+{
+  "provider": "OpenWeather",
+  "endpoint": "/data/2.5/weather",
+  "city": "Brisbane",
+  "status_code": 401,
+  "code": 401,
+  "message": "Invalid API key. Please see https://openweathermap.org/faq#error401 for more info.",
+  "key_character_count": 32,
+  "project_id": "keen-honor-491605-r5"
+}

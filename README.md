@@ -1,5 +1,30 @@
 # Phân biệt MCP và Function Calling
 
+## Bài nộp cá nhân
+
+Repo: [KX-DAY26-DinhHoangDuc-2A202602795](https://github.com/ducdh205/KX-DAY26-DinhHoangDuc-2A202602795).
+
+Báo cáo và log kiểm chứng: [REPORT.md](REPORT.md). Ảnh bằng chứng nằm trong [screenshots/](screenshots/).
+
+**Trạng thái: có 7/9 ảnh bắt buộc, chưa đủ điều kiện nộp cuối cùng.** Hai ảnh chat thời tiết thật còn chờ `WEATHERAPI_KEY` ở phía MCP server. Phần Cloud Run là tùy chọn và chưa deploy.
+
+| Bằng chứng | Trạng thái |
+| --- | --- |
+| [01-function-calling.png](screenshots/01-function-calling.png) | Có output Gemini thực tế; thời tiết mock theo đề |
+| [02-mcp-client.png](screenshots/02-mcp-client.png) | Có danh sách tool và ba lời gọi |
+| [03a-auth-ok.png](screenshots/03a-auth-ok.png) | Token hợp lệ gọi được tool |
+| [03a-auth-fail.png](screenshots/03a-auth-fail.png) | Token sai bị từ chối; HTTP 401 thực tế |
+| [03b-registry.png](screenshots/03b-registry.png) | Chọn `get_weather_v2` v2.0.0 |
+| [03c-versioning.png](screenshots/03c-versioning.png) | v1/v2 hoạt động và có metadata deprecated |
+| [04-verify-setup.png](screenshots/04-verify-setup.png) | All checks passed; phần key đã che |
+| `04-adk-current.png` | Chưa có dữ liệu WeatherAPI thật |
+| `04-adk-forecast.png` | Chưa có dữ liệu WeatherAPI thật |
+| `05-cloud-run.png` (tùy chọn) | Chưa deploy Cloud Run |
+
+Ảnh terminal hiển thị lại log thực tế đã lưu; nguồn và giới hạn bằng chứng được ghi trong report. Giá trị API key và các file `.env` không được đưa vào repo.
+
+---
+
 Đây là hai khái niệm hay bị nhầm lẫn nhưng thực ra ở **hai tầng khác nhau**, và **bổ sung cho nhau** chứ không thay thế.
 
 ## Cấu trúc repo

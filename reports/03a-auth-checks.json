@@ -1,0 +1,18 @@
+{
+  "python": "3.12.3",
+  "server_stopped": true,
+  "ok_exit_code": 0,
+  "fail_exit_code": 1,
+  "missing": {
+    "status_code": 401,
+    "body": "{\"error\": \"invalid_token\", \"error_description\": \"Authentication required\"}",
+    "www_authenticate": "Bearer error=\"invalid_token\", error_description=\"Authentication required\", resource_metadata=\"http://localhost:8000/.well-known/oauth-protected-resource\""
+  },
+  "wrong": {
+    "status_code": 401,
+    "body": "{\"error\": \"invalid_token\", \"error_description\": \"Authentication required\"}",
+    "www_authenticate": "Bearer error=\"invalid_token\", error_description=\"Authentication required\", resource_metadata=\"http://localhost:8000/.well-known/oauth-protected-resource\""
+  },
+  "server_exit_code": -2,
+  "port_8000_released": true
+}

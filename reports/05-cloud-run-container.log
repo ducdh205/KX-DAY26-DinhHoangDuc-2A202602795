@@ -1,0 +1,37 @@
+✅ MCP server initialized with Streamable HTTP transport
+🔧 Available tools: get_current_weather, get_forecast, health_check
+🚀 Starting MCP server on http://0.0.0.0:8080/mcp
+INFO:     172.18.0.1:45362 - "GET /mcp HTTP/1.1" 406 Not Acceptable
+INFO:     172.18.0.1:45370 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     172.18.0.1:45378 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     172.18.0.1:45394 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     172.18.0.1:45402 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     172.18.0.1:45408 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     172.18.0.1:45418 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     Started server process [1]
+INFO:     Waiting for application startup.
+[10/14/26 08:14:43] INFO     StreamableHTTP       streamable_http_manager.py:164
+                             session manager                                    
+                             started                                            
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+                    INFO     Created new          streamable_http_manager.py:330
+                             transport with                                     
+                             session ID:                                        
+                             87138769ae034f5a9d8d                               
+                             6fe2d209e5f7                                       
+                    INFO     Terminating session:         streamable_http.py:831
+                             87138769ae034f5a9d8d6fe2d209                       
+                             e5f7                                               
+[10/14/26 08:14:44] INFO     Created new          streamable_http_manager.py:330
+                             transport with                                     
+                             session ID:                                        
+                             373eaf96e03848bcbab7                               
+                             c00bcf1b9d0a                                       
+                    INFO     Processing request of type            server.py:733
+                             ListToolsRequest                                   
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Terminating session:         streamable_http.py:831
+                             373eaf96e03848bcbab7c00bcf1b                       
+                             9d0a                                               
